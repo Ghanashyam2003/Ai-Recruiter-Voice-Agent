@@ -3,21 +3,26 @@ import { supabase } from "@/services/supabaseClient";
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-// This is a Next.js page component for the login page of the application.
 
 function Login() {
-  /* Used to sign in with a Google account */
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      });
+      options: {
+        scopes:
+          "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
+        redirectTo: `${window.location.origin}`, // Will redirect to homepage after login
+      },
+    });
+
     if (error) {
-      console.error("Error:", error.message);
+      console.error("Error signing in with Google:", error.message);
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <div className="flex flex-col items-center justify-center gap-4 p-8 border  rounded-2xl  ">
+      <div className="flex flex-col items-center justify-center gap-4 p-8 border rounded-2xl">
         <Image
           src={"/logo.png"}
           alt="Logo"
@@ -32,7 +37,7 @@ function Login() {
             width={500}
             height={400}
             className="w-[400px] h-[250px]"
-          ></Image>
+          />
           <h2 className="text-2xl font-bold text-center mt-3.5">
             Welcome to Ai Recruiter
           </h2>
@@ -40,7 +45,7 @@ function Login() {
             Sign in With Google Authentication
           </p>
           <Button className="mt-7 w-full" onClick={signInWithGoogle}>
-            Login with Google{" "}
+            Login with Google
           </Button>
         </div>
       </div>
