@@ -1,21 +1,18 @@
 "use client";
-import { supabase } from "@/services/supabaseClient"; // Importing the Supabase client instance
+import { supabase } from "@/services/supabaseClient";
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 // This is a Next.js page component for the login page of the application.
 
-function login() {
-  /* Usend to Sign in Google Account */
+function Login() {
+  /* Used to sign in with a Google account */
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/dashboard`,
-      },
-    });
+      });
     if (error) {
-      console.error("Error signing in with Google:", error.message);
+      console.error("Error:", error.message);
     }
   };
   return (
@@ -37,9 +34,9 @@ function login() {
             className="w-[400px] h-[250px]"
           ></Image>
           <h2 className="text-2xl font-bold text-center mt-3.5">
-            Welcome to Ai Recruiter{" "}
+            Welcome to Ai Recruiter
           </h2>
-          <p className="text-grey-500 text-center">
+          <p className="text-gray-500 text-center">
             Sign in With Google Authentication
           </p>
           <Button className="mt-7 w-full" onClick={signInWithGoogle}>
@@ -51,4 +48,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;
